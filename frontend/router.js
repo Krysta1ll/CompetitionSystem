@@ -6,12 +6,13 @@ import { createRouter, createWebHistory } from "vue-router";
 // 导入你的组件
 
 
-import login from "@/views/login.vue";
-
+import AdminLogin from "@/views/AdminLogin.vue";
+import Index from "@/views/Index.vue"
 
 
 const routes = [
-    { path: '/test', component: login },
+    { path: '/', component: Index },
+    {path:'/login/admin' ,component: AdminLogin}
     // 在这里添加其他路由规则
 ];
 

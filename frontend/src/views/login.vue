@@ -33,7 +33,7 @@ export default {
                     // 处理登录成功的逻辑
                     if(response.data === null){
                         console.log("sad")
-                    }else console.log("success!")
+                    }else console.log(response.data)
                 })
                 .catch(error => {
                     // 处理登录失败的逻辑
