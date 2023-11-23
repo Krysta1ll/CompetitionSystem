@@ -1,13 +1,13 @@
 <template>
     <el-menu class="el-menu-vertical-demo">
         <el-menu-item index="1">
-            <router-link to="/dashboard">仪表盘</router-link>
+            <router-link to="/dashboard" class="router-link-exact-active"> 仪表盘</router-link>
         </el-menu-item>
         <el-menu-item index="2">
-            <router-link to="/settings">设置</router-link>
+            <router-link to="/settings" class="router-link-exact-active">设置</router-link>
         </el-menu-item>
         <el-menu-item index="3">
-            <router-link to="/users">用户管理</router-link>
+            <router-link to="/userList" class="router-link-exact-active">用户管理</router-link>
         </el-menu-item>
         <!-- 其他菜单项... -->
     </el-menu>
@@ -53,5 +53,17 @@ export default {
     color: inherit; /* 继承父元素的字体颜色 */
     text-decoration: none; /* 移除下划线 */
 }
+.el-menu-item {
+    /* hover效果 */
+    transition: background-color 0.3s;
+}
 
+.el-menu-item:hover {
+    background-color: #f5f5f5; /* 悬浮背景色 */
+}
+
+/* 使用Element Plus的图标 */
+.el-menu-item i {
+    margin-right: 8px; /* 图标与文字间距 */
+}
 </style>

@@ -9,6 +9,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import AdminLogin from "@/views/AdminLogin.vue";
 import Index from "@/views/Index.vue"
 import AdminView from "@/views/AdminView.vue";
+import UserList from "@/components/UserList.vue";
+import App from "@/App.vue";
 
 
 
@@ -19,9 +21,17 @@ function adminIsLoggedIn() {
 
 
 const routes = [
-    { path: '/', component: Index },
-    {path:'/login/admin' ,component: AdminLogin},
-    {path: '/admin',component: AdminView,meta: { requiresAuth: true } },
+    {path: '/', component: Index},
+    {
+        path: '/admin', component: AdminView, children: [
+            {path: '/userList', component: UserList}
+        ]
+    },
+    {path: '/adminLogin', component: AdminLogin}
+
+
+
+
     // 在这里添加其他路由规则
 ];
 

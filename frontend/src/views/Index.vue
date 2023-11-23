@@ -1,6 +1,6 @@
 <template>
     <div class="home-page">
-      <router-link to="/login/admin"> <el-button type="primary" >管理员登录</el-button></router-link>
+      <router-link to="adminLogin"> <el-button type="primary" >管理员登录</el-button></router-link>
         <el-button type="success">用户登录</el-button>
     </div>
 </template>

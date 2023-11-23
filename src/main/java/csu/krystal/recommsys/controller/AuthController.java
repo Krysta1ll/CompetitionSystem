@@ -1,4 +1,4 @@
-package csu.krystal.recommsys.Controller;
+package csu.krystal.recommsys.controller;
 
 import csu.krystal.recommsys.dto.LoginRequest;
 import csu.krystal.recommsys.entity.Admin;

@@ -1,9 +1,10 @@
 <script setup>
+import Index from "@/views/Index.vue";
 </script>
 
 <template>
   <main>
-      <router-view></router-view>
+     <router-view></router-view>
   </main>
 </template>
 

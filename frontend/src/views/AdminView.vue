@@ -16,6 +16,9 @@
             <router-view></router-view>
 
          </div>
+         <div class="footer">
+            © 2023 Krystal. All rights reserved.
+         </div>
       </div>
    </div>
 </template>
@@ -73,6 +76,13 @@ export default {
 }
 .admin-username {
    margin-right: 20px; /* 右边距 */
+}
+.footer {
+   text-align: center;
+   padding: 10px 0;
+   background-color: #f5f5f5; /* 底部栏背景颜色 */
+   border-top: 1px solid #dcdee2; /* 上边框 */
+   font-size: 0.8em; /* 字体大小 */
 }
 
 </style>
