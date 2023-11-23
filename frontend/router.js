@@ -11,6 +11,7 @@ import Index from "@/views/Index.vue"
 import AdminView from "@/views/AdminView.vue";
 import UserList from "@/components/UserList.vue";
 import App from "@/App.vue";
+import UserView from "@/views/UserView.vue";
 
 
 
@@ -23,10 +24,11 @@ function adminIsLoggedIn() {
 const routes = [
     {path: '/', component: Index},
     {
-        path: '/admin', component: AdminView, children: [
-            {path: '/userList', component: UserList}
+        path: '/admin', component: AdminView,  meta: { title: '主页' },children: [
+            {path: '/userList', component: UserList, meta: { title: '用户列表' }}
         ]
     },
+    { path: '/user' ,component: UserView },
     {path: '/adminLogin', component: AdminLogin}
 
 

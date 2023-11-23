@@ -31,6 +31,7 @@ export default {
     height: 100vh; /* 充满整个视口高度 */
     border-right: 1px solid #dcdee2; /* 添加右边框 */
 }
+
 /* Navbar.vue 或相应的样式文件 */
 .el-menu-vertical-demo .el-menu-item {
     color: #333; /* 改变字体颜色 */
@@ -53,6 +54,7 @@ export default {
     color: inherit; /* 继承父元素的字体颜色 */
     text-decoration: none; /* 移除下划线 */
 }
+
 .el-menu-item {
     /* hover效果 */
     transition: background-color 0.3s;
