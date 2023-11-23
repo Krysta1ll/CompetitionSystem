@@ -28,21 +28,35 @@ export default {
         };
     },
     methods: {
+        mounted(){
+            console.log("test")
+            if(localStorage.getItem("admin-data")){
+                console.log("已登录")
+                this.$router.push('/admin')
+            }
+        },
+        saveLoginState(admin) {
+            // 在这里实现保存登录状态的逻辑
+            localStorage.setItem('admin-data', JSON.stringify(admin));
+            // ...其他相关逻辑
+        },
         login(event) {
             event.preventDefault();
             axios.post('/auth/login', { username: this.username, password: this.password })
                 .then(response => {
                     // 处理登录成功的逻辑
-                    if(response.data.admin) {
-                        this.saveLoginState(response.data.admin);
-                        this.$router.push('/admin'); // 假设你的管理页面的路由是 '/admin'
+                    const admin = response.data;
+                    if (admin) {
+                        this.saveLoginState(admin);
+                        this.$router.push('/admin');
                     } else {
                         console.log("登录失败，未获取到管理员信息");
+                        this.$message.error('登录失败!请检查用户名和密码')
                     }
                 })
                 .catch(error => {
                     // 处理登录失败的逻辑
-
+                    this.$message.error('登录失败：' + error.message);
                 });}}}
 </script>
 
