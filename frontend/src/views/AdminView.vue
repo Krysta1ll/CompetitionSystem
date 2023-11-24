@@ -1,13 +1,13 @@
 <template>
     <div class="dashboard">
         <navbar></navbar>
-        <!--      导航栏-->
         <div class="main-content">
-            <div class="top-bar">竞争性关键词评分系统后台管理平台
-                <div class="admin-username">
-                    您好， {{ adminName }}
+            <div class="top-bar">
+                竞争性关键词评分系统后台管理平台
+                <div class="admin-operations">
+                    <span class="admin-username">您好，{{ adminName }}</span>
+                    <el-button type="text" class="logout-button" @click="logout">退出登录</el-button>
                 </div>
-
             </div>
             <!-- 其他顶部栏内容 -->
 
@@ -50,8 +50,10 @@ export default {
             breadcrumbList: []
         };
     },
-    mounted() {
+    created() {
 
+
+        if(!localStorage.getItem("admin-data"))this.$router.push("/")
         this.admin = JSON.parse(localStorage.getItem('admin-data'));
         this.adminName = this.admin.username;
 
@@ -65,6 +67,13 @@ export default {
                     path: route.path
                 }));
             }
+        }
+    },
+
+    methods: {
+        logout() {
+            localStorage.removeItem('admin-data'); // 移除用户数据
+            this.$router.push('/'); // 重定向
         }
     }
 
@@ -111,4 +120,13 @@ export default {
     font-size: 0.8em; /* 字体大小 */
 }
 
+.admin-operations {
+    display: flex;
+    align-items: center;
+}
+
+.logout-button {
+    margin-left: 20px; /* 与用户名标签的间距 */
+    color: #409EFF; /* 按钮文字颜色 */
+}
 </style>

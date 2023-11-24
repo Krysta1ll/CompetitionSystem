@@ -10,15 +10,14 @@ import AdminLogin from "@/views/AdminLogin.vue";
 import Index from "@/views/Index.vue"
 import AdminView from "@/views/AdminView.vue";
 import UserList from "@/components/UserList.vue";
-import App from "@/App.vue";
 import UserView from "@/views/UserView.vue";
+import UserLogin from "@/views/UserLogin.vue";
+import UserRegister from "@/views/UserRegister.vue";
 
 
 
 //判断是否已经登录
-function adminIsLoggedIn() {
-    return !!localStorage.getItem('admin-data'); // 假设登录令牌保存在 'user-token' 键下
-}
+
 
 
 const routes = [
@@ -29,7 +28,9 @@ const routes = [
         ]
     },
     { path: '/user' ,component: UserView },
-    {path: '/adminLogin', component: AdminLogin}
+    {path: '/adminLogin', component: AdminLogin},
+    {path: '/userLogin',component: UserLogin},
+    {path: '/userRegister',component: UserRegister}
 
 
 

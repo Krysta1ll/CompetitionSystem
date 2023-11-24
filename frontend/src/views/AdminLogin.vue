@@ -27,14 +27,17 @@ export default {
             password: '',
         };
     },
+    created(){
+        console.log("test")
+
+        // 检查是否已经登录
+        if(localStorage.getItem("admin-data")){
+            console.log("已登录")
+            this.$message.info("上次登录未及时退出，请记得使用结束后进行登出")
+            this.$router.push('/admin')
+        }
+    },
     methods: {
-        mounted(){
-            console.log("test")
-            if(localStorage.getItem("admin-data")){
-                console.log("已登录")
-                this.$router.push('/admin')
-            }
-        },
         saveLoginState(admin) {
             // 在这里实现保存登录状态的逻辑
             localStorage.setItem('admin-data', JSON.stringify(admin));
