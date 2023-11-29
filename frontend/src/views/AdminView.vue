@@ -53,7 +53,7 @@ export default {
     created() {
 
 
-        if(!localStorage.getItem("admin-data"))this.$router.push("/")
+        if (!localStorage.getItem("admin-data")) this.$router.push("/")
         this.admin = JSON.parse(localStorage.getItem('admin-data'));
         this.adminName = this.admin.username;
 

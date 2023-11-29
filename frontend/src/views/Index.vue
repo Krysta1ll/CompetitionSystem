@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { ElButton } from 'element-plus'
+import {ElButton} from 'element-plus'
 
 export default {
     components: {

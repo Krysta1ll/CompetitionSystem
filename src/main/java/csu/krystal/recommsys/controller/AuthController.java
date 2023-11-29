@@ -2,6 +2,7 @@ package csu.krystal.recommsys.controller;
 
 import csu.krystal.recommsys.dto.LoginRequest;
 import csu.krystal.recommsys.entity.Admin;
+import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,5 +19,10 @@ public class AuthController {
     @PostMapping("/login")
     public Admin login(@RequestBody LoginRequest request) {
         return authService.login(request);
+    }
+
+    @PostMapping("/userLogin")
+    public User userLogin(@RequestBody LoginRequest request) {
+        return authService.userLogin(request);
     }
 }

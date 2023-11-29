@@ -2,11 +2,12 @@ package csu.krystal.recommsys.mapper;
 
 import csu.krystal.recommsys.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import net.sf.jsqlparser.util.validation.metadata.NamedObject;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author Krystal
@@ -14,5 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 
 public interface UserMapper extends BaseMapper<User> {
+
 
 }

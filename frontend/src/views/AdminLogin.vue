@@ -27,11 +27,11 @@ export default {
             password: '',
         };
     },
-    created(){
+    created() {
         console.log("test")
 
         // 检查是否已经登录
-        if(localStorage.getItem("admin-data")){
+        if (localStorage.getItem("admin-data")) {
             console.log("已登录")
             this.$message.info("上次登录未及时退出，请记得使用结束后进行登出")
             this.$router.push('/admin')
@@ -45,7 +45,7 @@ export default {
         },
         login(event) {
             event.preventDefault();
-            axios.post('/auth/login', { username: this.username, password: this.password })
+            axios.post('/auth/login', {username: this.username, password: this.password})
                 .then(response => {
                     // 处理登录成功的逻辑
                     const admin = response.data;
@@ -60,7 +60,10 @@ export default {
                 .catch(error => {
                     // 处理登录失败的逻辑
                     this.$message.error('登录失败：' + error.message);
-                });}}}
+                });
+        }
+    }
+}
 </script>
 
 <style scoped>

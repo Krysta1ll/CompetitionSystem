@@ -14,7 +14,8 @@
                 </el-form-item>
                 <el-form-item>
                     <div class="register-link">
-                        没有账号？<el-button type="text" @click="goToRegister">立即注册</el-button>
+                        没有账号？
+                        <el-button type="text" @click="goToRegister">立即注册</el-button>
                     </div>
                 </el-form-item>
             </el-form>
@@ -33,8 +34,9 @@ export default {
         };
     },
     created() {
-        if(localStorage.getItem("user-data")){
-            this.$router.push('/dashboard'); // 假设用户的主页面路由是 '/dashboard'
+        if (localStorage.getItem("user-data")) {
+            this.$message.info("上次登录未及时退出，请记得使用结束后进行登出")
+            this.$router.push('/user'); // 假设用户的主页面路由是 '/dashboard'
         }
     },
     methods: {
@@ -44,7 +46,22 @@ export default {
         },
         login(event) {
             event.preventDefault();
-            // 登录逻辑...
+            axios.post('/auth/userLogin', {username: this.username, password: this.password})
+                .then(response => {
+                    // 处理登录成功的逻辑
+                    const user = response.data;
+                    if (user) {
+                        this.saveLoginState(user);
+                        this.$router.push('/user');
+                    } else {
+                        console.log("登录失败，未获取到用户信息");
+                        this.$message.error('登录失败!请检查用户名和密码')
+                    }
+                })
+                .catch(error => {
+                    // 处理登录失败的逻辑
+                    this.$message.error('登录失败：' + error.message);
+                });
         },
         goToRegister() {
             this.$router.push('/userRegister'); // 注册页面的路由是 '/register'

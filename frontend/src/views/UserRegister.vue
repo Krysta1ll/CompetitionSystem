@@ -2,15 +2,15 @@
     <div class="register-page">
         <el-card class="register-card">
             <div class="title">用户注册</div>
-            <el-form ref="registerForm" :model="registerForm" @submit.native.prevent="register">
+            <el-form ref="registerForm" @submit.native.prevent="register">
                 <el-form-item label="用户名" prop="username">
-                    <el-input v-model="registerForm.username"></el-input>
+                    <el-input v-model="username"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
-                    <el-input type="password" v-model="registerForm.password"></el-input>
+                    <el-input type="password" v-model="password"></el-input>
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
-                    <el-input v-model="registerForm.email"></el-input>
+                    <el-input v-model="email"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" native-type="submit">注册</el-button>
@@ -21,20 +21,35 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     data() {
         return {
-            registerForm: {
-                username: '',
-                password: '',
-                email: ''
-            }
+
+            username: '',
+            password: '',
+            email: ''
+
         };
     },
     methods: {
-        register() {
-            console.log('注册信息:', this.registerForm);
-            // 在这里添加注册逻辑
+        register(event) {
+            event.preventDefault();
+            axios.post('/user/register', {username: this.username, password: this.password, email: this.email})
+                .then(response => {
+                    // 处理注册成功的逻辑
+                    const user = response.data;
+                    if (user) {
+                        this.$message.success('注册成功!')
+                        this.$router.push('/userLogin');
+                    } else {
+                        console.log("注册失败，未获取到用户信息");
+                        this.$message.error('注册失败!请检查用户名和密码')
+                    }
+
+                })
+
         }
     }
 };
