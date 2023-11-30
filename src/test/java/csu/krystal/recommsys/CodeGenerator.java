@@ -1,4 +1,5 @@
 package csu.krystal.recommsys;
+
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
@@ -26,7 +27,7 @@ public class CodeGenerator {
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml, System.getProperty("user.dir") + "/src/main/resources/mapper")); // 设置mapper.xml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("admin", "model","record","score","user") // 设置需要生成的表名
+                    builder.addInclude("admin", "model", "record", "score", "user") // 设置需要生成的表名
                             .addTablePrefix("t_", "c_") // 设置过滤表前缀
                             .entityBuilder().enableLombok() // 开启Lombok模型
                             .controllerBuilder().enableRestStyle(); // 开启生成@RestController控制器

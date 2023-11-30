@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/compkey?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/compkey
     username: root
     password: tassadarwty2003
     driver-class-name: com.mysql.cj.jdbc.Driver

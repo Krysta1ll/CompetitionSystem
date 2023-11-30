@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author Krystal
  * @since 2023-11-22
  */
 @RestController
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/model")
+public class ModelController {
 
 }
