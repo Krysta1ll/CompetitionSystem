@@ -2,7 +2,6 @@ package csu.krystal.recommsys;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import csu.krystal.recommsys.entity.Admin;
-import csu.krystal.recommsys.mapper.AdminMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
