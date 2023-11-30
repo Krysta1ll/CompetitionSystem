@@ -1,7 +1,6 @@
 package csu.krystal.recommsys.controller;
 
 import csu.krystal.recommsys.dto.LoginRequest;
-import csu.krystal.recommsys.entity.Admin;
 import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;

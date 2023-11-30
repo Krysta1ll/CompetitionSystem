@@ -6,8 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 /**
  * <p>
@@ -17,8 +18,8 @@ import lombok.Setter;
  * @author Krystal
  * @since 2023-11-22
  */
-@Getter
-@Setter
+@Data
+@TableName("model")
 public class Model implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,12 +30,10 @@ public class Model implements Serializable {
     private String s;
 
     private String a;
-
-    private String k;
-
     private String comp;
 
-    private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Data createTime;
 
 
 }

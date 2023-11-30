@@ -5,9 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 /**
  * <p>
@@ -17,8 +18,7 @@ import lombok.Setter;
  * @author Krystal
  * @since 2023-11-22
  */
-@Getter
-@Setter
+@Data
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,9 +32,13 @@ public class User implements Serializable {
 
     private String email;
 
-    private LocalDateTime createdAt;
+    private String telephone;
 
-    private LocalDateTime updatedAt;
+    private int role;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private LocalDateTime updateTime;
 
 
 }

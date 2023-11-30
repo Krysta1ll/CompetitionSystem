@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 /**
  * <p>
@@ -17,8 +17,7 @@ import lombok.Setter;
  * @author Krystal
  * @since 2023-11-22
  */
-@Getter
-@Setter
+@Data
 public class Score implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,7 +31,8 @@ public class Score implements Serializable {
 
     private Integer userId;
 
-    private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date createTime;
 
 
 }

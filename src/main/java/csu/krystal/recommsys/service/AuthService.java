@@ -3,7 +3,6 @@ package csu.krystal.recommsys.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import csu.krystal.recommsys.dto.LoginRequest;
-import csu.krystal.recommsys.entity.Admin;
 import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.mapper.AdminMapper;
 import csu.krystal.recommsys.mapper.UserMapper;
@@ -19,11 +18,11 @@ public class AuthService {
     private UserMapper userMapper;
 
 
-    public Admin login(LoginRequest request) {
+    public User login(LoginRequest request) {
         // 根据用户名查询用户信息
-        QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", request.getUsername());
-        Admin admin = adminMapper.selectOne(queryWrapper);
+        User admin = userMapper.selectOne(queryWrapper);
 
         // 如果用户存在且密码匹配，返回用户信息，否则返回null
         if (admin != null && admin.getPassword().equals(request.getPassword())) {
