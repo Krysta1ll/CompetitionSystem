@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -34,10 +34,13 @@ public class Model implements Serializable {
     private String s;
 
     private String a;
+
+    private String k;
+
     private String comp;
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Data createTime;
+    private Date createTime;
 
 
 }

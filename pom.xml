@@ -84,6 +84,25 @@
             <version>1.2.83</version>
         </dependency>
 
+        <!-- redis需要 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!-- jieba中文分词器 -->
+        <dependency>
+            <groupId>com.huaban</groupId>
+            <artifactId>jieba-analysis</artifactId>
+            <version>1.0.2</version> <!-- 版本号可以根据需要进行更改 -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.ansj</groupId>
+            <artifactId>ansj_seg</artifactId>
+            <version>5.1.6</version> <!-- 版本号可以根据需要进行更改 -->
+        </dependency>
+
         <!-- ShardingSphere -->
 <!--        <dependency>-->
 <!--            <groupId>org.apache.shardingsphere</groupId>-->
