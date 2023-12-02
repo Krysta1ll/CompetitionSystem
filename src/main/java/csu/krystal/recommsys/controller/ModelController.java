@@ -33,7 +33,7 @@ public class ModelController {
         return null;
     }
 
-    @GetMapping
+    @GetMapping("/{seed}")
     public ResponseVo<List<Model>> getModelByKey(@PathVariable String seed){
         return null;
     }

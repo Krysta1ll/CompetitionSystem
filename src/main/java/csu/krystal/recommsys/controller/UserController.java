@@ -8,6 +8,8 @@ import csu.krystal.recommsys.dto.TokenPassJson;
 import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.service.ITokenService;
 import csu.krystal.recommsys.service.IUserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users")
+@Tag(name = "用户管理接口")
 public class UserController {
     @Autowired
     private IUserService userService;
@@ -30,7 +33,8 @@ public class UserController {
     @Autowired
     private ITokenService tokenService;
 
-    @GetMapping
+    @GetMapping("")
+    @Operation(summary = "查询所有用户")
     public ResponseVo<List<User>> getUserList() {
         List<User> userList = userService.getUserList();
         for(User user: userList){
@@ -41,6 +45,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "登录")
     public ResponseVo<TokenPassJson> login(@RequestBody LoginRequest request) {
         TokenPassJson tokenPassJson = new TokenPassJson();
         String username = request.getUsername();
@@ -57,6 +62,7 @@ public class UserController {
 
 
     @PostMapping("/register")
+    @Operation(summary = "注册接口")
     public ResponseVo<User> register(@RequestBody RegisterRequest request) {
         User user = userService.selectUserByName(request.getUsername());
         if(user != null){
