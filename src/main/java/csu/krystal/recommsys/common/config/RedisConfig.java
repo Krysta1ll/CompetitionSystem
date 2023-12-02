@@ -10,6 +10,7 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class RedisConfig {
@@ -29,6 +30,7 @@ public class RedisConfig {
         // value和 hashValue采用 JSON序列化
         redisTemplate.setValueSerializer(jsonRedisSerializer);
         redisTemplate.setHashValueSerializer(jsonRedisSerializer);
+
         return redisTemplate;
     }
 }

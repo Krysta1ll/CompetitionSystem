@@ -8,8 +8,8 @@ import csu.krystal.recommsys.dto.TokenPassJson;
 import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.service.ITokenService;
 import csu.krystal.recommsys.service.IUserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users")
-@Tag(name = "用户管理接口")
+@Api(tags = "用户管理接口",description = "实现登录,注册,用户查询")
 public class UserController {
     @Autowired
     private IUserService userService;
@@ -34,7 +34,7 @@ public class UserController {
     private ITokenService tokenService;
 
     @GetMapping("")
-    @Operation(summary = "查询所有用户")
+    @ApiOperation(notes = "查询用户列表",value = "返回密码为空的用户列表数据")
     public ResponseVo<List<User>> getUserList() {
         List<User> userList = userService.getUserList();
         for(User user: userList){
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    @Operation(summary = "登录")
+    @ApiOperation(notes = "登录",value = "根据传递的用户名,密码和role,登录成功返回 token")
     public ResponseVo<TokenPassJson> login(@RequestBody LoginRequest request) {
         TokenPassJson tokenPassJson = new TokenPassJson();
         String username = request.getUsername();
@@ -62,7 +62,7 @@ public class UserController {
 
 
     @PostMapping("/register")
-    @Operation(summary = "注册接口")
+    @ApiOperation(notes = "注册",value = "根据传递的用户名,密码,email,role,返回数据")
     public ResponseVo<User> register(@RequestBody RegisterRequest request) {
         User user = userService.selectUserByName(request.getUsername());
         if(user != null){
