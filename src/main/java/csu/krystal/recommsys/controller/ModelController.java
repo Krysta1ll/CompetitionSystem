@@ -69,14 +69,14 @@ public class ModelController {
         if(modelList == null){
             //缓存中没有查找到该关键字,试着从数据库中查找
             modelList = modelService.selectBySeed(seed);
-            if(modelList == null){
+            if(modelList.isEmpty()){
                  //在数据库model表中也没找到该关键字, 这时需要调用算法了
                 // compkey算法中, 第一个参数为种子关键字, 第二个参数为指定 联合关键字数量
                 modelList = CompKey.compKey(seed, 3);
             }
         }
 
-        //todo  记录这次搜索记录
+        //todo  记录这次搜索记录, 包括搜索时间, 搜索人
         return ResponseVo.success("搜索成功", modelList);
     }
 
