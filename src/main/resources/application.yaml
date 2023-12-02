@@ -1,13 +1,16 @@
+## Spring Boot 服务端口配置
+server:
+  port: 8080
+
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/compkey
+    url: jdbc:mysql://127.0.0.1:3306/compkey
     username: root
-    password: tassadarwty2003
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/**/*.xml
   type-aliases-package: csu.krystal.recommsys.entity
   global-config:
     db-config:
@@ -15,6 +18,4 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-# Spring Boot 服务端口配置
-server:
-  port: 8080
+

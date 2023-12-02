@@ -38,7 +38,7 @@ public class User implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 
 }

@@ -1,9 +1,15 @@
 package csu.krystal.recommsys.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import csu.krystal.recommsys.common.util.ResponseVo;
+import csu.krystal.recommsys.dto.LoginRequest;
+import csu.krystal.recommsys.dto.RegisterRequest;
+import csu.krystal.recommsys.dto.TokenPassJson;
+import csu.krystal.recommsys.entity.Score;
+import csu.krystal.recommsys.entity.User;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 /**
  * <p>
@@ -14,7 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2023-11-22
  */
 @RestController
-@RequestMapping("/score")
+@RequestMapping("/scores")
 public class ScoreController {
+    @GetMapping
+    public ResponseVo<List<User>> getScoreList() {
+        return null;
+    }
 
 }

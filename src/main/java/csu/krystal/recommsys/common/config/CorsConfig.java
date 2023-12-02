@@ -1,4 +1,4 @@
-package csu.krystal.recommsys.tools;
+package csu.krystal.recommsys.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
