@@ -65,4 +65,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         int count = userMapper.insert(user);
         return count != 0;
     }
+
+    @Override
+    public boolean updateUserInfoById(int id, User user) {
+        User user1 = userMapper.selectById(id);
+        if(user1 != null){
+            user.setId(id);
+            user.setPassword(user1.getPassword());
+            if(userMapper.updateById(user) != 0){
+                return true;
+            }
+        }
+        return false;
+    }
 }

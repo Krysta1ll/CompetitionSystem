@@ -28,4 +28,6 @@ public interface IUserService extends IService<User> {
     boolean login(LoginRequest loginDto);
 
     boolean register(RegisterRequest registerDto);
+
+    boolean updateUserInfoById(int id, User user);
 }

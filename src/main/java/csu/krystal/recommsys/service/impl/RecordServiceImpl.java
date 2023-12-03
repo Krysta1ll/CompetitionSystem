@@ -1,5 +1,9 @@
 package csu.krystal.recommsys.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import csu.krystal.recommsys.entity.Record;
 import csu.krystal.recommsys.mapper.RecordMapper;
 import csu.krystal.recommsys.service.IRecordService;
@@ -31,6 +35,16 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         record.setRunTime(runtime);
         record.setCreateTime(new Date());
         return recordMapper.insert(record) != 0;
+    }
+
+    @Override
+    public IPage<Record> getRecordPage(Integer current, Integer size) {
+        LambdaQueryWrapper<Record> recordLambdaQueryWrapper = Wrappers.lambdaQuery();
+
+        //我们并不需要总记录数，查询总记录数就完全没有必要，因为它也需要耗时，设置不查询总记录数 : false
+        Page<Record> recordPage = new Page<>(current, size, false);
+
+        return recordMapper.selectPage(recordPage, new LambdaQueryWrapper<>());
     }
 
 

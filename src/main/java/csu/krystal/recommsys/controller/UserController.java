@@ -10,6 +10,7 @@ import csu.krystal.recommsys.service.ITokenService;
 import csu.krystal.recommsys.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,5 +75,40 @@ public class UserController {
             return ResponseVo.error("用户注册失败");
         }
     }
+
+    @GetMapping("/{username}")
+    @ApiOperation(notes = "查询用户",value = "根据username获取用户信息")
+    public ResponseVo<User> getUserByName(@PathVariable String username) {
+        User user = userService.selectUserByName(username);
+        if(user != null){
+            user.setPassword("");
+            return ResponseVo.success("获取用户信息", user);
+        }
+        return ResponseVo.error("获取用户信息失败");
+    }
+
+    @PutMapping("/{id}")
+    @ApiOperation(notes = "更新用户信息",value = "此接口用于更新用户信息, 调用接口时传递参数id和修改后的user信息,注意此接口并不能修改密码，" +
+            "用户名最好设置不可修改，或者前端设置修改了用户名也需要用户重新登录")
+    public ResponseVo<User> updateUser(@PathVariable int id, @RequestBody User user) {
+
+        if(userService.updateUserInfoById(id, user)){
+            User newUser = userService.selectUserById(id);
+            newUser.setPassword("");
+            return ResponseVo.success("更新用户信息成功", newUser);
+        }
+        return ResponseVo.error("更新用户信息失败");
+    }
+
+    //删除好像没必要实现
+//    @Delete("/{id}")
+//    @ApiOperation(notes = "更新用户信息",value = "此接口用于更新用户信息, 调用接口时传递参数id和修改后的user信息,注意此接口并不能修改密码，" +
+//            "用户名最好设置不可修改，或者前端设置修改了用户名就需要用户重新登录，原因是：token是通过username生成的")
+//    public ResponseVo<User> deleteUser(@PathVariable int id) {
+//        if(userService.deleteUserById(id)){
+//            return ResponseVo.success("删除用户信息成功");
+//        }
+//        return ResponseVo.error("删除用户信息失败");
+//    }
 
 }
