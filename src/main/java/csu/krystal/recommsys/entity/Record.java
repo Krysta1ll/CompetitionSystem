@@ -30,7 +30,7 @@ public class Record implements Serializable {
 
     private String content;
 
-    private Float runTime;
+    private double runTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;

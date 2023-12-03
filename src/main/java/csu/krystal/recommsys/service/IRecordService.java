@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IRecordService extends IService<Record> {
 
+    boolean addRecord(int uid, String content, double runtime);
 }

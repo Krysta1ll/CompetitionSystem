@@ -28,7 +28,7 @@ public class TokenConfig implements WebMvcConfigurer {
         excludePath.add("/assets/**");  //静态资源
 
         //要查看swagger接口文档时 需要关闭 token拦截器
-        excludePath.add("/**");
+//        excludePath.add("/**");
         //swagger接口文档
         excludePath.add("/swagger-ui**/**");
 

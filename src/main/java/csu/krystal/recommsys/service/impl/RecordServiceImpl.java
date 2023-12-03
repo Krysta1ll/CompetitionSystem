@@ -4,7 +4,10 @@ import csu.krystal.recommsys.entity.Record;
 import csu.krystal.recommsys.mapper.RecordMapper;
 import csu.krystal.recommsys.service.IRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -16,5 +19,19 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> implements IRecordService {
+
+    @Autowired
+    private RecordMapper recordMapper;
+
+    @Override
+    public boolean addRecord(int uid, String content, double runtime) {
+        Record record = new Record();
+        record.setUserId(uid);
+        record.setContent(content);
+        record.setRunTime(runtime);
+        record.setCreateTime(new Date());
+        return recordMapper.insert(record) != 0;
+    }
+
 
 }
