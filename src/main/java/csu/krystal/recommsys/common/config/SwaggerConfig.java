@@ -17,25 +17,7 @@ public class SwaggerConfig {
                         .version("v1")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
-                        .description("外部文档")
-                        .url("https://springshop.wiki.github.org/docs"));
+                        .description("项目github地址")
+                        .url("https://github.com/Krysta1ll/CompetitionSystem"));
     }
-
-//    @Bean
-//    public OpenAPI createRestApi(){
-//        return new OpenAPI(DocumentationType.SWAGGER_2)
-//                .apiInfo(apiInfo())
-//                .select()
-//                .apis(RequestHandlerSelectors.any())
-//                .paths(PathSelectors.any())
-//                .build();
-//    }
-//    private ApiInfo apiInfo(){
-//        return new ApiInfoBuilder()
-//                .title("竞争性关键字推荐系统接口文档")
-//                .contact(new Contact("竞争性关键字推荐系统","https://github.com/Krysta1ll/CompetitionSystem.git",":"))
-//                .version("1.0")
-//                .description("竞争性关键字推荐系统")
-//                .build();
-//    }
 }
