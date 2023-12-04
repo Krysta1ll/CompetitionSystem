@@ -1,5 +1,4 @@
-data/*
-target/*
+
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -18,7 +17,7 @@ outcome/*
 *.iws
 *.iml
 *.ipr
-
+*.txt
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
