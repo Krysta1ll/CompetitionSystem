@@ -3,15 +3,11 @@ package csu.krystal.recommsys.common.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
-import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 @Configuration
 public class TokenConfig implements WebMvcConfigurer {
@@ -28,9 +24,8 @@ public class TokenConfig implements WebMvcConfigurer {
         excludePath.add("/assets/**");  //静态资源
 
         //要查看swagger接口文档时 需要关闭 token拦截器
-//        excludePath.add("/**");
+        excludePath.add("/**");
         //swagger接口文档
-        excludePath.add("/swagger-ui**/**");
 
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")

@@ -11,14 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * <p>
- * 前端控制器
- * </p>
- *
- * @author Krystal
- * @since 2023-11-22
- */
 @RestController
 @RequestMapping("/scores")
 public class ScoreController {

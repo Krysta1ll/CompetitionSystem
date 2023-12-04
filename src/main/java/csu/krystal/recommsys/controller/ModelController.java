@@ -10,8 +10,8 @@ import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.service.IModelService;
 import csu.krystal.recommsys.service.IRecordService;
 import csu.krystal.recommsys.service.ITokenService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @RequestMapping("/models")
-@Api(tags = "关键字相关接口",description = "")
+@Tag(name = "关键字相关接口",description = "")
 public class ModelController {
     @Autowired
     private IModelService modelService;
@@ -63,13 +63,13 @@ public class ModelController {
 //        System.out.println(person1);
 
     @GetMapping
-    @ApiOperation(notes = "查询关键字列表",value = "返回缓存中所有的关键字数据")
+    @Operation(summary = "查询关键字列表", description = "返回缓存中所有的关键字数据")
     public ResponseVo<List<Model>> getModelsInMemory() {
         return null;
     }
 
     @GetMapping("/{seed}")
-    @ApiOperation(notes = "查询关键字model",value = "查找缓存中是否有该关键字,从缓存中取出后返回,如果没有就去数据库中搜索,还没有则调用compkey算法搜索,将结果存入缓存并返回数据")
+    @Operation(summary = "查询关键字model", description = "查找缓存中是否有该关键字,从缓存中取出后返回,如果没有就去数据库中搜索,还没有则调用compkey算法搜索,将结果存入缓存并返回数据")
     public ResponseVo<List<Model>> searchBySeed(HttpServletRequest request, @PathVariable String seed){
 
         // 记录开始搜索时间
