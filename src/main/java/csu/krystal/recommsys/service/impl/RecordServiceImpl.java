@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import csu.krystal.recommsys.entity.Record;
+import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.mapper.RecordMapper;
 import csu.krystal.recommsys.service.IRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -28,9 +29,9 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
     private RecordMapper recordMapper;
 
     @Override
-    public boolean addRecord(int uid, String content, double runtime) {
+    public boolean addRecord(User user, String content, double runtime) {
         Record record = new Record();
-        record.setUserId(uid);
+        record.setUserId(user.getId());
         record.setContent(content);
         record.setRunTime(runtime);
         record.setCreateTime(new Date());

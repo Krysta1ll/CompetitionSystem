@@ -60,19 +60,20 @@ public class TokenServiceImpl implements ITokenService {
     }
 
     @Override
-    public int getUidFromToken(String token) {
+    public User getUserFromToken(String token) {
         Claims claims = null;
 
         try {
             //token过期后，会抛出ExpiredJwtException 异常，通过这个来判定token过期，
             claims = Jwts.parser().setSigningKey(KEY).parseClaimsJws(token).getBody();
         }catch (ExpiredJwtException e){
-            //其实能到这一步 说明 token没有过期
+            //其实能到这一步 说明 token没有过期, 就不会抛这个异常
+            //防止万一，在这返回null，视作获取失败
             e.printStackTrace();
+            return null;
         }
         //从token中获取用户名，当用户查询通过后即可
         String username = claims.getSubject();
-        User user = userMapper.selectOne(new QueryWrapper<User>().eq("username", username));
-        return user.getId();
+        return userMapper.selectOne(new QueryWrapper<User>().eq("username", username));
     }
 }

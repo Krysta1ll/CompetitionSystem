@@ -1,21 +1,19 @@
 package csu.krystal.recommsys.controller;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import csu.krystal.recommsys.common.compkey.CompKey;
 import csu.krystal.recommsys.common.util.ResponseVo;
 import csu.krystal.recommsys.entity.Model;
-import csu.krystal.recommsys.entity.Record;
 import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.service.IModelService;
 import csu.krystal.recommsys.service.IRecordService;
+import csu.krystal.recommsys.service.IRedisService;
 import csu.krystal.recommsys.service.ITokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +45,10 @@ public class ModelController {
     private ITokenService tokenService;
 
     @Autowired
-    RedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private  IRedisService redisService;
 
     long expirTime = 120; // 设置过期时间为120分钟
 
@@ -62,10 +63,13 @@ public class ModelController {
 //    Person person1 = mapper.readValue(personJson, Person.class);
 //        System.out.println(person1);
 
-    @GetMapping
-    @Operation(summary = "查询关键字列表", description = "返回缓存中所有的关键字数据")
+    @GetMapping("/redis")
+    @Operation(summary = "查询缓存关键字列表", description = "返回缓存中所有的关键字数据")
     public ResponseVo<List<Model>> getModelsInMemory() {
-        return ResponseVo.success("查询成功", modelService.list());
+
+        List<Model> modelList = redisService.getAllModelInMemory();
+
+        return ResponseVo.success("缓存关键字列表", modelList);
     }
 
     @GetMapping("/{seed}")
@@ -76,14 +80,18 @@ public class ModelController {
         long startTime = System.nanoTime();
 
         //在缓存中查找该关键字
-        List<Model> modelList = (List<Model>) redisTemplate.opsForValue().get(seed);
+        String redisSearchSeed = "model:" + seed;
+        List<Model> modelList = (List<Model>)redisTemplate.opsForValue().get(redisSearchSeed);
+        String msg = "搜索成功：缓存查找";
         if(modelList == null){
             //缓存中没有查找到该关键字,试着从数据库中查找
             modelList = modelService.selectBySeed(seed);
+            msg = "搜索成功：数据库查找";
             if(modelList.isEmpty()){
                  //在数据库model表中也没找到该关键字, 这时需要调用compkey算法了
                 // compkey算法中, 第一个参数为种子关键字, 第二个参数为指定 联合关键字数量
                 modelList = CompKey.compKey(seed, 3);
+                msg = "搜索成功：算法查找";
                 if(modelList.isEmpty()){
                     return ResponseVo.error("算法搜索失败");
                 }
@@ -95,23 +103,23 @@ public class ModelController {
                 }
             }
             // 存入缓存中，并设置过期时间
-            redisTemplate.opsForValue().set(seed, modelList);
-            redisTemplate.expire(seed, expirTime, TimeUnit.MINUTES);
+            redisTemplate.opsForValue().set(redisSearchSeed, modelList);
+            redisTemplate.expire(redisSearchSeed, expirTime, TimeUnit.MINUTES);
         }
 
         // 记录结束时间
         long endTime = System.nanoTime();
         // 计算并输出程序运行时长（单位：秒）
         double runtime = (endTime - startTime) / 1_000_000_000.0; // 将纳秒转换为秒
-        //todo  记录这次搜索记录, 包括搜索时间, 搜索人
 
-        //从 token中获取 uid
+        //从 token中获取 user
         String token = request.getHeader("token");
-        int uid = tokenService.getUidFromToken(token);
+        User user = tokenService.getUserFromToken(token);
 
-        recordService.addRecord(uid, seed, runtime);
+        recordService.addRecord(user, seed, runtime);
 
-        return ResponseVo.success("搜索成功", modelList);
+        return ResponseVo.success(msg, modelList);
     }
+
 
 }

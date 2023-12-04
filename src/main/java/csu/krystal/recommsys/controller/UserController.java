@@ -5,6 +5,7 @@ import csu.krystal.recommsys.common.util.ResponseVo;
 import csu.krystal.recommsys.dto.LoginRequest;
 import csu.krystal.recommsys.dto.RegisterRequest;
 import csu.krystal.recommsys.dto.TokenPassJson;
+import csu.krystal.recommsys.entity.Model;
 import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.service.ITokenService;
 import csu.krystal.recommsys.service.IUserService;
@@ -48,7 +49,6 @@ public class UserController {
     @Operation(summary = "登录", description = "根据传递的用户名,密码和role,登录成功返回 token")
     public ResponseVo<TokenPassJson> login(@RequestBody LoginRequest request) {
         TokenPassJson tokenPassJson = new TokenPassJson();
-        String username = request.getUsername();
         if(userService.login(request)){
             String token = tokenService.createToken(request.getUsername());
             tokenPassJson.setToken(token);
@@ -78,6 +78,8 @@ public class UserController {
     @GetMapping("/{username}")
     @Operation(summary = "查询用户", description = "根据username获取用户信息")
     public ResponseVo<User> getUserByName(@PathVariable String username) {
+        // 更安全的角度应该 再验证一下 token中的username对应的 权限或者是否是本人
+        // 管理员可以查看所有用户信息， 普通用户只能查看自己的信息
         User user = userService.selectUserByName(username);
         if(user != null){
             user.setPassword("");
@@ -97,6 +99,19 @@ public class UserController {
             return ResponseVo.success("更新用户信息成功", newUser);
         }
         return ResponseVo.error("更新用户信息失败");
+    }
+
+    @GetMapping("/token/{token}")
+    @Operation(summary = "从token获取用户信息", description = "实现从token中获取用户名进一步获取用户信息, 路径参数为token")
+    public ResponseVo<User> getUserByToken(@PathVariable  String token) {
+        //从 token中获取 user
+        User user = tokenService.getUserFromToken(token);
+
+        if(user != null){
+            return ResponseVo.success("token获取用户信息成功", user);
+        }
+        return ResponseVo.error("token获取用户信息失败");
+
     }
 
     //删除好像没必要实现

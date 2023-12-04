@@ -32,7 +32,7 @@ public class RecordController {
     private IRecordService recordService;
 
     @GetMapping
-    @Operation(summary = "分页查询搜索记录", description = "传递参数，第一个参数是LIMIT 的起始下标")
+    @Operation(summary = "分页查询搜索记录", description = "传递参数，第一个参数是当前页， 第二个参数是页的大小")
     public ResponseVo<IPage<Record>> getPageRecord(@RequestParam("current") Integer current,
                                                    @RequestParam("size") Integer size){
 
