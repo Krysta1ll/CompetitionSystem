@@ -20,12 +20,8 @@ public class TokenConfig implements WebMvcConfigurer {
         //排除拦截，除了注册登录(此时还没token)，其他都拦截
         excludePath.add("/users/login");  //登录
         excludePath.add("/users/register");     //注册
-        excludePath.add("/static/**");  //静态资源
-        excludePath.add("/assets/**");  //静态资源
-
         //要查看swagger接口文档时 需要关闭 token拦截器
-        excludePath.add("/**");
-        //swagger接口文档
+//        excludePath.add("/**");
 
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")

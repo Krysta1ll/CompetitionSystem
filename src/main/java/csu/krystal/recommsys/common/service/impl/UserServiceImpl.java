@@ -1,11 +1,11 @@
-package csu.krystal.recommsys.service.impl;
+package csu.krystal.recommsys.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import csu.krystal.recommsys.dto.LoginRequest;
 import csu.krystal.recommsys.dto.RegisterRequest;
 import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.mapper.UserMapper;
-import csu.krystal.recommsys.service.IUserService;
+import csu.krystal.recommsys.common.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

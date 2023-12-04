@@ -3,7 +3,7 @@ package csu.krystal.recommsys.common.config;
 import com.alibaba.fastjson.JSON;
 
 import csu.krystal.recommsys.dto.TokenPassJson;
-import csu.krystal.recommsys.service.ITokenService;
+import csu.krystal.recommsys.common.service.ITokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

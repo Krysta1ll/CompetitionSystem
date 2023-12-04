@@ -1,9 +1,9 @@
-package csu.krystal.recommsys.service.impl;
+package csu.krystal.recommsys.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.mapper.UserMapper;
-import csu.krystal.recommsys.service.ITokenService;
+import csu.krystal.recommsys.common.service.ITokenService;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

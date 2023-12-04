@@ -9,6 +9,9 @@
         <el-menu-item index="3">
             <router-link to="/userList" class="router-link-exact-active">用户管理</router-link>
         </el-menu-item>
+      <el-menu-item index="4">
+        <router-link to="/scoreList" class="router-link-exact-active">评分管理</router-link>
+      </el-menu-item>
         <!-- 其他菜单项... -->
     </el-menu>
 </template>

@@ -13,6 +13,7 @@ import UserList from "@/components/UserList.vue";
 import UserView from "@/views/UserView.vue";
 import UserLogin from "@/views/UserLogin.vue";
 import UserRegister from "@/views/UserRegister.vue";
+import ScoreList from "@/components/ScoreList.vue";
 
 
 //判断是否已经登录
@@ -25,13 +26,13 @@ const routes = [
             {path: '/userList', component: UserList, meta: {title: '用户列表'}},
             {path:'/recordList',component:()=>import('@/components/RecordList.vue'),meta:{title:'记录列表'}},
             {path:'/keywordsList',component:()=>import('@/components/KeywordsList.vue'),meta:{title:'关键词列表'}},
+            {path: '/scoreList', component:() => ScoreList}
         ]
     },
     {path: '/user', component: UserView},
     {path: '/adminLogin', component: AdminLogin},
     {path: '/userLogin', component: UserLogin},
-    {path: '/userRegister', component: UserRegister}
-
+    {path: '/userRegister', component: UserRegister},
 
 
 

@@ -1,9 +1,9 @@
-package csu.krystal.recommsys.service.impl;
+package csu.krystal.recommsys.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import csu.krystal.recommsys.entity.Model;
 import csu.krystal.recommsys.mapper.ModelMapper;
-import csu.krystal.recommsys.service.IModelService;
+import csu.krystal.recommsys.common.service.IModelService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -16,6 +16,7 @@ app.component('vue-wordcloud', VueWordCloud)
 app.config.globalProperties.$axios = axios;
 app.provide('globalVar', globalVariable);
 axios.defaults.baseURL = "http://localhost:8080"
+
 app.use(router)
 app.use(ElementPlus)
 

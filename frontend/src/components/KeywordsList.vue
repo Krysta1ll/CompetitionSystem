@@ -27,8 +27,7 @@ export default {
     },
     methods: {
         fetchModels() {
-            axios
-                .get("/models") // 替换成您的后端接口地址
+            axios.get("/models/redis") // 替换成您的后端接口地址
                 .then((response) => {
                     this.models = response.data.data;
                     console.log(response)

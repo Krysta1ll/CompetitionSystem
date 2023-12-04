@@ -1,4 +1,4 @@
-package csu.krystal.recommsys.service;
+package csu.krystal.recommsys.common.service;
 
 import csu.krystal.recommsys.entity.Model;
 import com.baomidou.mybatisplus.extension.service.IService;

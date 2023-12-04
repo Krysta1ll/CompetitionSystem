@@ -1,4 +1,4 @@
-package csu.krystal.recommsys.service;
+package csu.krystal.recommsys.common.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import csu.krystal.recommsys.entity.Record;

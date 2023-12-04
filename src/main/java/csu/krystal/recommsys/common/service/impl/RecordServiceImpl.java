@@ -1,13 +1,12 @@
-package csu.krystal.recommsys.service.impl;
+package csu.krystal.recommsys.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import csu.krystal.recommsys.common.service.IRecordService;
 import csu.krystal.recommsys.entity.Record;
 import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.mapper.RecordMapper;
-import csu.krystal.recommsys.service.IRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

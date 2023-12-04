@@ -50,7 +50,6 @@ export default {
                     role: 0
                 })
                     .then(response => {
-
                         if (response.data && response.data.status===0) {
                             // 假设后端返回的成功状态字段是 success
                             this.$message.success('注册成功!');

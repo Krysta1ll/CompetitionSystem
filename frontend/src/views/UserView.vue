@@ -71,7 +71,7 @@ export default {
             searchQuery: "",
             keywords: [], // 存储关键词及其评分
             ratings: [], // 存储评分
-            user: "", // 用户信息
+            user: {}, // 用户信息
             username: "",
             email: "",
             showCompetitive: false, // 是否显示竞争度
@@ -87,14 +87,18 @@ export default {
         if (!localStorage.getItem("userToken_user")) this.$router.push("/");
         const token = localStorage.getItem('userToken_user');
         axios.defaults.headers.common['token'] = `${token}`;
+        axios.get(`/users/token/${token}`)
+            .then(res => {
+              if(res.data.status === 0){
+                  this.user = res.data.data
+              }
+            })
     },
-
-
 
     methods: {
         logout() {
             localStorage.removeItem('userToken_user');
-            this.user = '';
+            this.user = {};
             this.username = '';
             this.email = '';
             this.$router.push("/");
@@ -151,7 +155,26 @@ export default {
         rateKeyword(index) {
             const keyword = this.keywords[index];
             const rating = this.ratings[index];
+            const score = {
+              id: null,
+              score: rating,
+              modelId: keyword.id,
+              userId: this.user.id,
+              createTime: ""
+            }
+            console.log(score)
             // 发送评分到后端的逻辑
+          axios.post("/scores", score)
+              .then(response => {
+                if(response.data.status === 0){
+                  this.$message.success('评分成功')
+                }else {
+                  this.$message.error('评分失败')
+                }
+              }).catch(error => {
+              console.error('评分失败:', error);
+              this.$message.error('评分过程中发生错误');
+          })
         },
     }
 }
