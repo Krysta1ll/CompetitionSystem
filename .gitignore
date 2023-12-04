@@ -17,7 +17,8 @@ outcome/*
 *.iws
 *.iml
 *.ipr
-*.txt
+/data/
+/outcome/
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -30,4 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
-/data/
+
