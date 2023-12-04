@@ -6,8 +6,13 @@
             <el-table-column prop="id" label="ID" width="180"></el-table-column>
             <el-table-column prop="username" label="用户名"></el-table-column>
             <el-table-column prop="email" label="邮箱"></el-table-column>
-            <el-table-column prop="createdAt" label="注册时间"></el-table-column>
-            <el-table-column prop="updatedAt" label="上次登录时间"></el-table-column>
+            <el-table-column prop="createTime" label="注册时间"></el-table-column>
+            <el-table-column prop="updateTime" label="上次登录时间"></el-table-column>
+            <el-table-column prop="role" label="角色">
+                <template v-slot:="{ row }">
+                    {{ row.role === 1 ? '管理员' : '普通用户' }}
+                </template>
+            </el-table-column>
         </el-table>
     </div>
 </template>
@@ -26,13 +31,12 @@ export default {
     },
     methods: {
         fetchUsers() {
-            axios.get('/user/getUserList')
+            axios.get('/users')
                 .then(response => {
-                    this.users = response.data;
-                    console.log(this.users);
+                    this.users = response.data.data;
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.error(error);
                 });
         }
     }

@@ -2,14 +2,14 @@
     <div class="register-page">
         <el-card class="register-card">
             <div class="title">用户注册</div>
-            <el-form ref="registerForm" @submit.native.prevent="register">
-                <el-form-item label="用户名" prop="username">
+            <el-form ref="registerForm" @submit.native.prevent="register" :model="this">
+                <el-form-item label="用户名" prop="username" :rules="{ required: true, message: '请输入用户名', trigger: 'blur' }">
                     <el-input v-model="username"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
+                <el-form-item label="密码" prop="password" :rules="{ required: true, message: '请输入密码', trigger: 'blur' }">
                     <el-input type="password" v-model="password"></el-input>
                 </el-form-item>
-                <el-form-item label="邮箱" prop="email">
+                <el-form-item label="邮箱" prop="email" :rules="{ required: true, message: '请输入邮箱', trigger: 'blur' }">
                     <el-input v-model="email"></el-input>
                 </el-form-item>
                 <el-form-item>
@@ -29,30 +29,44 @@ export default {
 
             username: '',
             password: '',
-            email: ''
+            email: '',
+            role:0,
 
         };
     },
     methods: {
-        register(event) {
-            event.preventDefault();
-            axios.post('/user/register', {username: this.username, password: this.password, email: this.email})
-                .then(response => {
-                    // 处理注册成功的逻辑
-                    const user = response.data;
-                    if (user) {
-                        this.$message.success('注册成功!')
-                        this.$router.push('/userLogin');
-                    } else {
-                        console.log("注册失败，未获取到用户信息");
-                        this.$message.error('注册失败!请检查用户名和密码')
-                    }
 
+            register() {
+                // 前端简单验证
+                if (!this.username || !this.password || !this.email) {
+                    this.$message.error('请填写所有必填信息');
+                    return;
+                }
+                // 发送注册请求
+                axios.post('/users/register', {
+                    username: this.username,
+                    password: this.password,
+                    email: this.email,
+                    role: 0
                 })
+                    .then(response => {
 
+                        if (response.data && response.data.status===0) {
+                            // 假设后端返回的成功状态字段是 success
+                            this.$message.success('注册成功!');
+                            this.$router.push('/userLogin'); // 注册成功后跳转到登录页面
+                        } else {
+                            this.$message.error(response.data.msg || '注册失败，请重试');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('注册错误:', error);
+                        this.$message.error('注册过程中发生错误');
+
+                    });
         }
-    }
-};
+
+    }};
 </script>
 
 <style scoped>

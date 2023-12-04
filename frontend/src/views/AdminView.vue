@@ -27,7 +27,7 @@
 
             </div>
             <div class="footer">
-                © 2023 Krystal. All rights reserved.
+                © 2023 CSU. All rights reserved.
             </div>
         </div>
     </div>
@@ -36,6 +36,7 @@
 <script>
 import Navbar from '@/components/Navbar.vue';
 import {ElBreadcrumb, ElBreadcrumbItem} from "element-plus";
+import axios from "axios";
 
 export default {
     name: "AdminView",
@@ -45,17 +46,24 @@ export default {
     },
     data() {
         return {
-            admin: '',
             adminName: '',
-            breadcrumbList: []
         };
     },
     created() {
-
-
-        if (!localStorage.getItem("admin-data")) this.$router.push("/")
-        this.admin = JSON.parse(localStorage.getItem('admin-data'));
-        this.adminName = this.admin.username;
+        console.log(localStorage.getItem('userInfo'))
+        const token = localStorage.getItem('userToken');
+        axios.defaults.headers.common['token'] = `${token}`;
+        if (!token) {
+            this.$router.push("/login"); // 如果没有 token，重定向到登录页面
+        } else {
+            const userInfo = localStorage.getItem('userInfo');
+            if (userInfo) {
+                const parsedUserInfo = JSON.parse(userInfo);
+                this.adminName = parsedUserInfo.username; // 设置用户名
+            } else {
+                this.$router.push("/login"); // 如果没有 userInfo，重定向到登录页面
+            }
+        }
 
     },
     watch: {
@@ -72,7 +80,7 @@ export default {
 
     methods: {
         logout() {
-            localStorage.removeItem('admin-data'); // 移除用户数据
+            localStorage.removeItem('userToken'); // 移除用户数据
             this.$router.push('/'); // 重定向
         }
     }

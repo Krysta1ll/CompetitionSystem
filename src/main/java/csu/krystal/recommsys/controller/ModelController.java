@@ -65,7 +65,7 @@ public class ModelController {
     @GetMapping
     @Operation(summary = "查询关键字列表", description = "返回缓存中所有的关键字数据")
     public ResponseVo<List<Model>> getModelsInMemory() {
-        return null;
+        return ResponseVo.success("查询成功", modelService.list());
     }
 
     @GetMapping("/{seed}")

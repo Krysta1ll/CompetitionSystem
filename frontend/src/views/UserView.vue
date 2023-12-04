@@ -1,183 +1,210 @@
 <template>
-    <div class="header">
-        <div class="user-info-box">
-            <div class="user-info">
-                <div class="name">您好，{{username}}</div>
-                <div class="email">{{email}}</div>
-            </div>
-        </div>
-        <div class="title-box">
-            <div class="title">竞争性关键词评分系统</div>
-        </div>
+    <header class="header">
+        <h1>竞争性关键词评分系统</h1>
+
         <el-button class="logout-button" @click="logout">退出登录</el-button>
-    </div>
-<br>
+        <!-- 移动搜索栏到框体外部 -->
+        <el-input
+            placeholder="请输入关键词"
+            v-model="searchQuery"
+            class="search-input"
+            @keyup.enter="fetchKeywords"
+        >
+            <template #append>
+                <el-button icon="el-icon-search" @click="fetchKeywords">搜索</el-button>
+            </template>
+        </el-input>
+    </header>
     <div class="user-keywords">
-        <div class="search-container">
-            <el-input
-                    placeholder="请输入关键词"
-                    v-model="searchQuery"
-                    class="search-input"
-                    @keyup.enter="fetchKeywords"
-            >
-                <template #append>
-                    <el-button icon="el-icon-search" @click="fetchKeywords">搜索</el-button>
-                </template>
-            </el-input>
-        </div>
-        <div v-if="keywords.length > 0" class="keywords-list">
-            <div v-for="(keyword, index) in keywords" :key="index" class="keyword-item">
-                <span>{{ keyword }}</span>
-                <el-rate v-model="ratings[index]" show-text></el-rate> <!-- 打分组件 -->
+        <!-- 居中放置框体 -->
+
+        <div class="center-container">
+
+
+            <div class="glass-box">
+                <p>搜索结果</p>
+                <div v-if="keywords.length > 0" class="keywords-list">
+                    <div
+                        v-for="(keyword, index) in keywords"
+                        :key="index"
+                        class="keyword-item"
+                    >
+                        <span>{{ keyword.k }}</span>
+                        <span class="competitiveness">竞争度: {{ keyword.comp }}</span>
+                        <el-tooltip class="item" effect="dark" placement="top" :content="'评分: ' + ratings[index]">
+                            <el-rate v-model="ratings[index]"  @change="rateKeyword(index)"></el-rate>
+                        </el-tooltip>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-box">
+                <el-button @click="generateWordCloud">生成云图</el-button>
+                <p>云图</p>
+                <div ref="wordCloud" class="echarts-word-cloud"></div>
+                <!-- 在这里放置您的云图组件 -->
+
             </div>
         </div>
+
     </div>
+
+
 </template>
 
 <script>
+import axios from "axios";
+import * as echarts from 'echarts/core';
+
+import { CanvasRenderer } from 'echarts/renderers';
+
+// 注册词云图和渲染器
+echarts.use([CanvasRenderer]);
+
 export default {
+    components: {
+        // 您的组件
+    },
+
     data() {
         return {
-            searchQuery: '',
-            keywords: ['test', 'test2'], // 存储关键词
-            ratings: new Array(10).fill(0), // 初始化十个关键词的评分
-            user: '',
-            username:'',
-            email:'',
+            searchQuery: "",
+            keywords: [], // 存储关键词及其评分
+            ratings: [], // 存储评分
+            user: "", // 用户信息
+            username: "",
+            email: "",
+            showCompetitive: false, // 是否显示竞争度
+            currentCompetitiveness: "", // 当前关键词的竞争度
         };
     },
-    created() {
-        if (!localStorage.getItem("user-data")) this.$router.push("/")
-        this.user = JSON.parse(localStorage.getItem('user-data'));
-        this.username = this.user.username;
-        this.email = this.user.email;
+
+    computed: {
+
     },
+
+    created() {
+        if (!localStorage.getItem("userToken_user")) this.$router.push("/");
+        const token = localStorage.getItem('userToken_user');
+        axios.defaults.headers.common['token'] = `${token}`;
+    },
+
+
+
     methods: {
         logout() {
-            // 清除本地存储的用户信息
-            localStorage.removeItem('user-data');
-            // 重定向到登录页面或其他页面
-            this.$router.push('/');
-        }
+            localStorage.removeItem('userToken_user');
+            this.user = '';
+            this.username = '';
+            this.email = '';
+            this.$router.push("/");
+        },
+        generateWordCloud() {
+            // 使用 ref 获取 wordCloud 元素
+            const chart = echarts.init(this.$refs.wordCloud);
 
+            // 从 this.keywords 中获取数据，转换为云图数据格式
+            const wordCloudData = this.keywords.map(keyword => ({
+                name: keyword.k,
+                value: keyword.comp
+            }));
+
+            // 设置云图的配置项
+            const option = {
+                series: [{
+                    type: 'wordCloud',
+                    gridSize: 2,
+                    sizeRange: [12, 50],
+                    rotationRange: [-90, 90],
+                    shape: 'pentagon',
+                    width: '100%',
+                    height: '100%',
+                    textStyle: {
+                        normal: {
+                            color: () => {
+                                return 'rgb(' + [
+                                    Math.round(Math.random() * 255),
+                                    Math.round(Math.random() * 255),
+                                    Math.round(Math.random() * 255)
+                                ].join(',') + ')';
+                            }
+                        }
+                    },
+                    data: wordCloudData
+                }]
+            };
+
+            // 使用 setOption 方法设置云图配置
+            chart.setOption(option);
+        },
+        fetchKeywords() {
+            axios.get(`/models/${this.searchQuery}`)
+                .then(response => {
+                    this.keywords = response.data.data;
+                    this.ratings = new Array(this.keywords.length).fill(0);
+                })
+                .catch(error => {
+                    console.error('搜索失败', error);
+                    this.$message.error('搜索过程中发生错误');
+                });
+        },
+        rateKeyword(index) {
+            const keyword = this.keywords[index];
+            const rating = this.ratings[index];
+            // 发送评分到后端的逻辑
+        },
     }
 }
 </script>
 
 <style>
-.user-keywords .search-input {
-    margin-bottom: 20px;
-}
 
-.keywords-list .keyword-item {
+.center-container {
     display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+    flex-direction: row; /* 水平排列子元素 */
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    height: auto; /* 自动高度 */
 }
 
-.user-keywords .search-container {
-    display: flex;
-    justify-content: center; /* 水平居中 */
-    margin-bottom: 30px; /* 与下方内容的间距 */
+.search-input {
+    width: 80%; /* 调整搜索栏宽度 */
+    max-width: 400px;
+    margin-bottom: 20px; /* 调整搜索栏与框体的距离 */
 }
 
-.user-keywords .search-input {
-    width: 50%; /* 搜索栏宽度 */
-    max-width: 400px; /* 最大宽度 */
-}
-
-/* 关键词列表样式 */
-.keywords-list .keyword-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-
-.user-info-box {
-
+.glass-box {
     backdrop-filter: blur(10px);
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 20px;
+    height: 300px;
+    width: 45%;
     max-width: 400px;
-    color: #333;
+    color: #555; /* 修改字体颜色 */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    position: relative; /* 添加定位属性 */
     background: rgba(255, 255, 255, 0.7);
     background: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 100%);
+    flex: 1;
+    margin: 10px;
 
 }
-
-/* 修改渐变效果，使其仅出现在用户信息框内 */
-.user-info-box::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    border-radius: 10px; /* 使渐变背景遵循边框圆角 */
+.keyword-item {
     display: flex;
     align-items: center;
-
-}
-.user-keywords .search-container .el-button {
-    background-color: #a1c4fd; /* 蓝色背景 */
-    color: white; /* 白色文字 */
-    border: none;
-}
-
-.user-keywords .search-container .el-button:hover {
-    background-color: #92baf3; /* 深一点的蓝色 */
-}
-
-.title {
-    font-size: 1.5em;
-    font-weight: bold;
+    justify-content: space-between; /* 调整为平均分布 */
+    margin-bottom: 10px;
+    font-size: 18px;
     color: #333;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
 }
 
-.user-info .name {
-    font-size: 1.2em;
-    font-weight: bold;
-
-}
-
-.user-info .email {
-    font-size: 1em;
-    color: #555;
-}
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 30px;
-    background: #f5f5f5;
-}
-
-.title-box {
-    background: rgba(255, 255, 255, 0.7); /* 半透明白色背景 */
-    backdrop-filter: blur(10px); /* 毛玻璃效果 */
-    border-radius: 10px; /* 圆角 */
-    padding: 20px; /* 内边距 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 阴影效果 */
-    margin: 0 20px;
-}
-
-.title {
-    font-size: 1.5em; /* 增大字体大小 */
-    font-weight: bold; /* 字体加粗 */
-    color: #333; /* 字体颜色 */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 更改字体 */
-    text-shadow: none;
+.competitiveness {
+    margin-left: 10px;
+    color: #666;
+    font-size: 15px;
 }
 
 .logout-button {
@@ -186,9 +213,21 @@ export default {
     border: none;
     border-radius: 4px; /* 轻微的圆角 */
     padding: 10px 15px; /* 内边距 */
+    margin-bottom: 20px; /* 与框体的距离 */
 }
 
 .logout-button:hover {
     background-color: #ff7875; /* 深一点的红色 */
+}
+.header {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.echarts-word-cloud {
+    width: 100%;
+    height: 400px;
 }
 </style>

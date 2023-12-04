@@ -1,10 +1,10 @@
 <template>
     <el-menu class="el-menu-vertical-demo">
         <el-menu-item index="1">
-            <router-link to="/dashboard" class="router-link-exact-active"> 仪表盘</router-link>
+            <router-link to="/recordList" class="router-link-exact-active"> 用户搜索记录</router-link>
         </el-menu-item>
         <el-menu-item index="2">
-            <router-link to="/settings" class="router-link-exact-active">设置</router-link>
+            <router-link to="/keywordsList" class="router-link-exact-active">关键词</router-link>
         </el-menu-item>
         <el-menu-item index="3">
             <router-link to="/userList" class="router-link-exact-active">用户管理</router-link>

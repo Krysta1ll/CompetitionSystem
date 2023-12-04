@@ -2,12 +2,12 @@
     <div class="admin-login">
         <el-card class="login-card">
             <div class="title">管理员登录</div>
-            <el-form @submit="login">
+            <el-form @submit.native.prevent="login" ref="loginForm" :model="loginForm" >
                 <el-form-item label="用户名">
-                    <el-input v-model="username" placeholder="请输入用户名"></el-input>
+                    <el-input v-model="loginForm.username" placeholder="请输入用户名"></el-input>
                 </el-form-item>
                 <el-form-item label="密码">
-                    <el-input v-model="password" type="password" placeholder="请输入密码"></el-input>
+                    <el-input v-model="loginForm.password" type="password" placeholder="请输入密码"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button native-type="submit" block>登录</el-button>
@@ -23,44 +23,48 @@ import axios from "axios";
 export default {
     data() {
         return {
-            username: '',
-            password: '',
+            loginForm: {
+                username: '',
+                password: '',
+                role: 1
+            }
         };
     },
     created() {
-        console.log("test")
-
+        const token = localStorage.getItem('userToken');
         // 检查是否已经登录
-        if (localStorage.getItem("admin-data")) {
+        if (token) {
             console.log("已登录")
             this.$message.info("上次登录未及时退出，请记得使用结束后进行登出")
             this.$router.push('/admin')
         }
     },
     methods: {
-        saveLoginState(admin) {
-            // 在这里实现保存登录状态的逻辑
-            localStorage.setItem('admin-data', JSON.stringify(admin));
-            // ...其他相关逻辑
-        },
-        login(event) {
-            event.preventDefault();
-            axios.post('/auth/login', {username: this.username, password: this.password})
+        login() {
+            this.$axios.post('/users/login', this.loginForm)
                 .then(response => {
-                    // 处理登录成功的逻辑
-                    const admin = response.data;
-                    if (admin) {
-                        this.saveLoginState(admin);
-                        this.$router.push('/admin');
+                    if (response.data.status === 0 && response.data.data && response.data.data.success === 1) {
+                        this.$message.success(response.data.msg);
+                        console.log('Token:', response.data.data.token);
+                        // 保存 token 到 localStorage
+                        localStorage.setItem('userToken', response.data.data.token);
+                        const userInfo = {
+                            username: response.data.data.username,
+                        };
+                        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                        console.log(response.data);
+                        // 登录成功后的页面跳转
+                        this.$router.push("/admin");
                     } else {
-                        console.log("登录失败，未获取到管理员信息");
-                        this.$message.error('登录失败!请检查用户名和密码')
+                        // 如果status不是0或者data.success不是1，视为登录失败
+                        this.$message.error(response.data.msg || '登录失败');
                     }
                 })
                 .catch(error => {
-                    // 处理登录失败的逻辑
-                    this.$message.error('登录失败：' + error.message);
+                    console.error('登录错误', error);
+                    this.$message.error('登录过程中发生错误');
                 });
+
         }
     }
 }
