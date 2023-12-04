@@ -40,13 +40,11 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
 
     @Override
     public IPage<Record> getRecordPage(Integer current, Integer size) {
-        LambdaQueryWrapper<Record> recordLambdaQueryWrapper = Wrappers.lambdaQuery();
 
         //我们并不需要总记录数，查询总记录数就完全没有必要，因为它也需要耗时，设置不查询总记录数 : false
         Page<Record> recordPage = new Page<>(current, size, false);
 
         return recordMapper.selectPage(recordPage, new LambdaQueryWrapper<>());
     }
-
 
 }

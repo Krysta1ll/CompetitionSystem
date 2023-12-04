@@ -17,4 +17,6 @@ public interface IModelService extends IService<Model> {
     List<Model> selectBySeed(String seed);
 
     List<Model> insertModelList(List<Model> modelList);
+
+    List<Model> getAllModelInMemory();
 }

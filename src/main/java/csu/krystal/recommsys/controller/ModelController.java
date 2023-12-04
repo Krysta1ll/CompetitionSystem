@@ -7,7 +7,6 @@ import csu.krystal.recommsys.entity.Model;
 import csu.krystal.recommsys.entity.User;
 import csu.krystal.recommsys.service.IModelService;
 import csu.krystal.recommsys.service.IRecordService;
-import csu.krystal.recommsys.service.IRedisService;
 import csu.krystal.recommsys.service.ITokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -47,8 +46,6 @@ public class ModelController {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Autowired
-    private  IRedisService redisService;
 
     long expirTime = 120; // 设置过期时间为120分钟
 
@@ -67,7 +64,7 @@ public class ModelController {
     @Operation(summary = "查询缓存关键字列表", description = "返回缓存中所有的关键字数据")
     public ResponseVo<List<Model>> getModelsInMemory() {
 
-        List<Model> modelList = redisService.getAllModelInMemory();
+        List<Model> modelList = modelService.getAllModelInMemory();
 
         return ResponseVo.success("缓存关键字列表", modelList);
     }
