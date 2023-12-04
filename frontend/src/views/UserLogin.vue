@@ -2,12 +2,12 @@
     <div class="user-login">
         <el-card class="login-card">
             <div class="title">用户登录</div>
-            <el-form @submit="login">
+            <el-form @submit.native.prevent="login" ref="loginForm" :model="loginForm" >
                 <el-form-item label="用户名">
-                    <el-input v-model="username" placeholder="请输入用户名"></el-input>
+                    <el-input v-model="loginForm.username" placeholder="请输入用户名"></el-input>
                 </el-form-item>
                 <el-form-item label="密码">
-                    <el-input v-model="password" type="password" placeholder="请输入密码"></el-input>
+                    <el-input v-model="loginForm.password" type="password" placeholder="请输入密码"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button native-type="submit" block>登录</el-button>
@@ -29,39 +29,48 @@ import axios from "axios";
 export default {
     data() {
         return {
-            username: '',
-            password: '',
+            loginForm: {
+                username: '',
+                password: '',
+                role: 0
+            }
         };
     },
     created() {
-        if (localStorage.getItem("user-data")) {
+        const token = localStorage.getItem('userToken_user');
+        // 检查是否已经登录
+        if (token) {
+            console.log("已登录")
             this.$message.info("上次登录未及时退出，请记得使用结束后进行登出")
-            this.$router.push('/user'); // 假设用户的主页面路由是 '/dashboard'
+            this.$router.push('/user')
         }
     },
     methods: {
-        saveLoginState(user) {
-            localStorage.setItem('user-data', JSON.stringify(user));
-            // ...其他相关逻辑
-        },
-        login(event) {
-            event.preventDefault();
-            axios.post('/auth/userLogin', {username: this.username, password: this.password})
+        login() {
+            this.$axios.post('/users/login', this.loginForm)
                 .then(response => {
-                    // 处理登录成功的逻辑
-                    const user = response.data;
-                    if (user) {
-                        this.saveLoginState(user);
-                        this.$router.push('/user');
+                    if (response.data.status === 0 && response.data.data && response.data.data.success === 1) {
+                        this.$message.success(response.data.msg);
+                        console.log('Token:', response.data.data.token);
+                        // 保存 token 到 localStorage
+                        localStorage.setItem('userToken_user', response.data.data.token);
+                        // 设置全局 Axios 请求头
+                        const token = localStorage.getItem('userToken_user');
+                        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+                        // 登录成功后的页面跳转
+                        this.$router.push("/user");
                     } else {
-                        console.log("登录失败，未获取到用户信息");
-                        this.$message.error('登录失败!请检查用户名和密码')
+                        // 如果status不是0或者data.success不是1，视为登录失败
+                        this.$message.error(response.data.msg || '登录失败');
                     }
                 })
                 .catch(error => {
-                    // 处理登录失败的逻辑
-                    this.$message.error('登录失败：' + error.message);
+                    console.error('登录错误', error);
+                    this.$message.error('登录过程中发生错误');
                 });
+
+
         },
         goToRegister() {
             this.$router.push('/userRegister'); // 注册页面的路由是 '/register'

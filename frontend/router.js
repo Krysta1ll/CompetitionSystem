@@ -22,7 +22,9 @@ const routes = [
     {path: '/', component: Index},
     {
         path: '/admin', component: AdminView, meta: {title: '主页'}, children: [
-            {path: '/userList', component: UserList, meta: {title: '用户列表'}}
+            {path: '/userList', component: UserList, meta: {title: '用户列表'}},
+            {path:'/recordList',component:()=>import('@/components/RecordList.vue'),meta:{title:'记录列表'}},
+            {path:'/keywordsList',component:()=>import('@/components/KeywordsList.vue'),meta:{title:'关键词列表'}},
         ]
     },
     {path: '/user', component: UserView},
