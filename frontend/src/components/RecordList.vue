@@ -62,7 +62,7 @@ export default {
                 .get("/records", { params })
                 .then((response) => {
                     this.records = response.data.data.records;
-                    this.totalRecords = response.data.data.total; // 设置总记录数
+                    this.totalRecords = response.data.data.records.length; // 这里应该是从后端获取的总记录数
                 })
                 .catch((error) => {
                     console.error(error);
