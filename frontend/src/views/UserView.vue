@@ -1,20 +1,27 @@
 <template>
     <header class="header">
         <h1>竞争性关键词评分系统</h1>
-
         <el-button class="logout-button" @click="logout">退出登录</el-button>
-        <!-- 移动搜索栏到框体外部 -->
+    </header>
+<br>
+    <br>
+<div  style="justify-content: center;
+
+display: flex;
+align-items: center">
+
         <el-input
             placeholder="请输入关键词"
             v-model="searchQuery"
             class="search-input"
             @keyup.enter="fetchKeywords"
+
         >
             <template #append>
                 <el-button icon="el-icon-search" @click="fetchKeywords">搜索</el-button>
             </template>
         </el-input>
-    </header>
+    </div>
     <div class="user-keywords">
         <!-- 居中放置框体 -->
 
@@ -49,7 +56,9 @@
 
     </div>
 
-
+    <footer class="footer">
+        <p>&copy; CSU. All Rights Reserved.</p>
+    </footer>
 </template>
 
 <script>
@@ -184,35 +193,38 @@ export default {
 
 .center-container {
     display: flex;
-    flex-direction: row; /* 水平排列子元素 */
+    flex-direction: row;
     align-items: flex-start;
     justify-content: space-around;
     flex-wrap: wrap;
-    height: auto; /* 自动高度 */
+    height: auto;
 }
 
 .search-input {
-    width: 80%; /* 调整搜索栏宽度 */
+    width: 80%;
     max-width: 400px;
-    margin-bottom: 20px; /* 调整搜索栏与框体的距离 */
+    margin-bottom: 20px;
 }
-
+.el-button:hover {
+    background-color: #1992d4; /* 深一点的蓝色 */
+}
 .glass-box {
     backdrop-filter: blur(10px);
-    border-radius: 10px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    background-color: white;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    height: 300px;
+    height: 370px;
     width: 45%;
     max-width: 400px;
-    color: #555; /* 修改字体颜色 */
+    color: #555;
     display: flex;
     flex-direction: column;
     align-items: center;
     background: rgba(255, 255, 255, 0.7);
     background: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 100%);
     flex: 1;
-    margin: 10px;
 
 }
 .keyword-item {
@@ -222,6 +234,8 @@ export default {
     margin-bottom: 10px;
     font-size: 18px;
     color: #333;
+    border-bottom: 1px solid #e1e8ed; /* 添加细线分隔 */
+    padding: 10px;
 }
 
 .competitiveness {
@@ -229,28 +243,76 @@ export default {
     color: #666;
     font-size: 15px;
 }
-
-.logout-button {
-    background-color: #ff4d4f; /* 赤红色背景 */
-    color: white; /* 白色文字 */
-    border: none;
-    border-radius: 4px; /* 轻微的圆角 */
-    padding: 10px 15px; /* 内边距 */
-    margin-bottom: 20px; /* 与框体的距离 */
+/* 底部栏样式 */
+.footer {
+    backdrop-filter: blur(10px);
+    text-align: center;
+    padding: 20px 0;
+    background-color: #1da1f2;
+    color: white;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.logout-button, .el-button {
+    background-color: #fff;
+    color: #1da1f2;
+    border: 2px solid #1da1f2;
+    border-radius: 20px;
+    padding: 8px 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
 
-.logout-button:hover {
-    background-color: #ff7875; /* 深一点的红色 */
+.logout-button:hover, .el-button:hover {
+    background-color: #1da1f2;
+    color: #fff;
 }
 .header {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    backdrop-filter: blur(10px);
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #1da1f2;
+    color: white;
 }
+
+.header h1 {
+    margin: 0;
+}
+
 
 .echarts-word-cloud {
     width: 100%;
     height: 400px;
+    border: 1px solid #ccc; /* 添加边框 */
+    border-radius: 10px; /* 圆角边框 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.el-button {
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    transition: background-color 0.3s;
+}
+
+.search-input, .el-button {
+    border-radius: 20px;
+}
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e6ecf0;
+    line-height: 1.6;
+    padding: 0 10px;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 </style>
