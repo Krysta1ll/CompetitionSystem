@@ -1,7 +1,10 @@
 <template>
     <header class="header">
         <h1>竞争性关键词评分系统</h1>
-        <el-button class="logout-button" @click="logout">退出登录</el-button>
+        <div class="user-info">
+            <span class="user-name">您好，{{ userName }}</span>
+            <el-button class="logout-button" @click="logout">退出登录</el-button>
+        </div>
     </header>
 <br>
     <br>
@@ -81,7 +84,7 @@ export default {
             keywords: [], // 存储关键词及其评分
             ratings: [], // 存储评分
             user: {}, // 用户信息
-            username: "",
+            userName: "",
             email: "",
             showCompetitive: false, // 是否显示竞争度
             currentCompetitiveness: "", // 当前关键词的竞争度
@@ -96,6 +99,7 @@ export default {
         if (!localStorage.getItem("userToken_user")) this.$router.push("/");
         const token = localStorage.getItem('userToken_user');
         axios.defaults.headers.common['token'] = `${token}`;
+        this.getUserInfo(token);
         axios.get(`/users/token/${token}`)
             .then(res => {
               if(res.data.status === 0){
@@ -105,6 +109,19 @@ export default {
     },
 
     methods: {
+        getUserInfo(token) {
+            const url = `/users/token/${token}`;
+            return axios.get(url)
+                .then(response => {
+                    // 请求成功，返回响应数据
+                    console.log(response.data.username);
+                    this.userName = response.data.data.username;
+                })
+                .catch(error => {
+                    // 请求失败，处理错误
+                    console.error('There was an error!', error);
+                });
+        },
         logout() {
             localStorage.removeItem('userToken_user');
             this.user = {};
@@ -153,11 +170,13 @@ export default {
         fetchKeywords() {
             axios.get(`/models/${this.searchQuery}`)
                 .then(response => {
+
                     this.keywords = response.data.data;
                     this.ratings = new Array(this.keywords.length).fill(0);
                 })
                 .catch(error => {
-                    console.error('搜索失败', error);
+
+                    console.error('搜索失败', this.searchQuery);
                     this.$message.error('搜索过程中发生错误');
                 });
         },
@@ -313,6 +332,17 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+.user-info {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+}
+
+.user-name {
+    margin-right: 10px;
+    font-weight: bold;
+    color: white;
 }
 
 </style>

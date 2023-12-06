@@ -1,18 +1,22 @@
 package csu.krystal.recommsys.common.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
-    //这是用于允许跨域访问的类
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173") // 允许的源
-                .allowedOrigins("http://127.0.0.1:5173")
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // 允许的方法
-                .maxAge(3600); // 预检请求的缓存时间（秒）
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("http://localhost:5173"); // 允许的前端域名
+        config.addAllowedHeader("*"); // 允许所有请求头
+        config.addAllowedMethod("*"); // 允许所有HTTP方法
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }

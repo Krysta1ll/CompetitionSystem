@@ -45,4 +45,14 @@ class RecommSysApplicationTests {
 
         System.out.println(value);
     }
+
+    @Test
+    void midWordTest(){
+
+
+
+
+    }
+
+
 }

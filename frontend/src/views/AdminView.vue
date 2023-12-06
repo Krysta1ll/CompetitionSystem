@@ -37,8 +37,8 @@
 import Navbar from '@/components/Navbar.vue';
 import {ElBreadcrumb, ElBreadcrumbItem} from "element-plus";
 import axios from "axios";
-
 export default {
+
     name: "AdminView",
     components: {
         Navbar, ElBreadcrumb,
@@ -56,6 +56,7 @@ export default {
         if (!token) {
             this.$router.push("/login"); // 如果没有 token，重定向到登录页面
         } else {
+            this.getUserInfo(token);
             const userInfo = localStorage.getItem('userInfo');
             if (userInfo) {
                 const parsedUserInfo = JSON.parse(userInfo);
@@ -79,13 +80,30 @@ export default {
     },
 
     methods: {
+        getUserInfo(token) {
+
+    const url = `/users/token/${token}`;
+
+
+    return axios.get(url)
+        .then(response => {
+            // 请求成功，返回响应数据
+            console.log(response.data.username);
+            this.adminName = response.data.data.username;
+        })
+        .catch(error => {
+            // 请求失败，处理错误
+            console.error('There was an error!', error);
+        });
+},
+
         logout() {
             localStorage.removeItem('userToken'); // 移除用户数据
             this.$router.push('/'); // 重定向
         }
-    }
 
-}
+
+}};
 </script>
 
 <style scoped>
