@@ -9,7 +9,7 @@ public class CorsConfig implements WebMvcConfigurer {
     //这是用于允许跨域访问的类
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // 允许跨域访问的路径
+        registry.addMapping("/**")
                 .allowedOrigins("http://localhost:5173") // 允许的源
                 .allowedOrigins("http://127.0.0.1:5173")
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // 允许的方法

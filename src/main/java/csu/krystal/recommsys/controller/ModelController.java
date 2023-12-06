@@ -60,7 +60,7 @@ public class ModelController {
 //    Person person1 = mapper.readValue(personJson, Person.class);
 //        System.out.println(person1);
 
-    @GetMapping("/redis")
+    @GetMapping("")
     @Operation(summary = "查询缓存关键字列表", description = "返回缓存中所有的关键字数据")
     public ResponseVo<List<Model>> getModelsInMemory() {
 

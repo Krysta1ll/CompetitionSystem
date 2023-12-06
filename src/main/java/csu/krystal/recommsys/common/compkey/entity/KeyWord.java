@@ -19,7 +19,7 @@ public class KeyWord {
         this.compKeywords = new ArrayList<>();
         this.sa = new int[midNum];
         this.ka = new int[midNum][5];
-        this.a = new int[5];
+        this.a = new int[midNum];
         this.compPower = new double[5];
 
         Arrays.fill(this.sa, 0);
